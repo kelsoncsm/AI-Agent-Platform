@@ -1,0 +1,31 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# Environment / secrets
+.env
+*.env.local
+
+# IDE
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# Claude Code (estado local da ferramenta, não é código do projeto)
+.claude/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+logs/
