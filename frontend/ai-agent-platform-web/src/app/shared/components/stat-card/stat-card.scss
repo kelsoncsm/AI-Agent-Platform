@@ -1,0 +1,52 @@
+.stat-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    flex-shrink: 0;
+
+    ng-icon {
+      font-size: 22px;
+    }
+  }
+
+  &__label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  &__value {
+    margin-top: var(--spacing-xs);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  &__trend {
+    margin-top: var(--spacing-xs);
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    &--up {
+      color: var(--color-success);
+    }
+
+    &--down {
+      color: var(--color-danger);
+    }
+
+    &--neutral {
+      color: var(--color-text-muted);
+    }
+  }
+}

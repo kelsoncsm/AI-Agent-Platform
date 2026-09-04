@@ -1,0 +1,111 @@
+<div class="playground">
+  <aside class="playground__agents card">
+    <h2>Agentes</h2>
+    <ul>
+      @for (agent of agents; track agent.id) {
+        <li>
+          <button
+            type="button"
+            class="playground__agent-btn"
+            [class.playground__agent-btn--active]="selectedAgentId() === agent.id"
+            (click)="selectAgent(agent.id)"
+          >
+            <ng-icon [name]="agent.icon" aria-hidden="true" />
+            {{ agent.name }}
+          </button>
+        </li>
+      }
+    </ul>
+  </aside>
+
+  <section class="playground__conversation card">
+    <header class="playground__conversation-header">
+      <ng-icon [name]="selectedAgent().icon" aria-hidden="true" />
+      <div>
+        <strong>{{ selectedAgent().name }}</strong>
+        <span>{{ selectedAgent().description }}</span>
+      </div>
+    </header>
+
+    <div class="playground__messages">
+      @if (!messages().length) {
+        <p class="playground__empty">Nenhuma mensagem ainda. Comece a conversa abaixo.</p>
+      }
+      @for (message of messages(); track $index) {
+        <div class="playground__message" [class]="'playground__message--' + message.role">
+          {{ message.text }}
+        </div>
+      }
+    </div>
+
+    <div class="playground__composer">
+      <textarea
+        class="textarea"
+        placeholder="Digite uma mensagem..."
+        [value]="draft()"
+        (input)="draft.set($any($event.target).value)"
+      ></textarea>
+      <div class="playground__composer-actions">
+        <button type="button" class="btn-secondary" (click)="clearConversation()">
+          <ng-icon name="lucideTrash2" aria-hidden="true" />
+          Limpar conversa
+        </button>
+        <button type="button" class="btn-primary" (click)="sendMessage()">
+          <ng-icon name="lucideSend" aria-hidden="true" />
+          Enviar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="playground__settings card">
+    <h2>Configurações</h2>
+
+    <div class="form-field">
+      <label for="pg-model">Modelo</label>
+      <select id="pg-model" class="select" [value]="model()" (change)="model.set($any($event.target).value)">
+        @for (option of models; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="pg-temperature">Temperatura ({{ temperature() }})</label>
+      <input
+        id="pg-temperature"
+        type="range"
+        min="0"
+        max="1"
+        step="0.1"
+        [value]="temperature()"
+        (input)="temperature.set($any($event.target).valueAsNumber)"
+      />
+    </div>
+
+    <div class="form-field">
+      <label id="pg-tools-label">Ferramentas habilitadas</label>
+      <div class="playground__chips" role="group" aria-labelledby="pg-tools-label">
+        @for (chip of toolChips(); track chip.name) {
+          <button
+            type="button"
+            class="chip"
+            [class.chip--active]="chip.enabled"
+            (click)="toggleToolChip(chip)"
+          >
+            {{ chip.name }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="pg-kb">Knowledge Base</label>
+      <select id="pg-kb" class="select" [value]="knowledgeBase()" (change)="knowledgeBase.set($any($event.target).value)">
+        @for (option of knowledgeBases; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+  </aside>
+</div>

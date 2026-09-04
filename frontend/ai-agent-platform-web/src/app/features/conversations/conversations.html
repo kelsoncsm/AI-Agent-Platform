@@ -1,0 +1,38 @@
+<app-page-header title="Conversas" subtitle="Histórico de conversas dos seus agentes com usuários finais" />
+
+<div class="conversations__toolbar">
+  <app-search-input placeholder="Buscar por agente..." [(value)]="search" />
+</div>
+
+@if (filtered().length) {
+  <div class="card">
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Agente</th>
+            <th scope="col">Canal</th>
+            <th scope="col">Última mensagem</th>
+            <th scope="col">Status</th>
+            <th scope="col">Atualizado em</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (conversation of filtered(); track conversation.id) {
+            <tr>
+              <td>{{ conversation.agentName }}</td>
+              <td>{{ conversation.channel }}</td>
+              <td>{{ conversation.lastMessage }}</td>
+              <td><app-status-badge [status]="conversation.status" /></td>
+              <td>{{ conversation.updatedAt }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+} @else {
+  <div class="card">
+    <app-empty-state icon="lucideMessagesSquare" title="Nenhuma conversa encontrada" description="Ajuste a busca para ver outros resultados." />
+  </div>
+}

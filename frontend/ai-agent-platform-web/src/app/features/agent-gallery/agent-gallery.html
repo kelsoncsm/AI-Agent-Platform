@@ -1,0 +1,37 @@
+<app-page-header title="Templates" subtitle="Comece com um agente pronto" />
+
+<div class="gallery__toolbar">
+  <div class="tabs" role="tablist">
+    @for (category of categories; track category) {
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.active]="activeCategory() === category"
+        [attr.aria-selected]="activeCategory() === category"
+        (click)="activeCategory.set(category)"
+      >
+        {{ category }}
+      </button>
+    }
+  </div>
+
+  <app-search-input placeholder="Buscar templates..." [(value)]="search" />
+</div>
+
+<div class="gallery__grid">
+  @for (template of filteredTemplates(); track template.id) {
+    <article class="card gallery__card">
+      <div class="gallery__card-icon">
+        <ng-icon [name]="template.icon" aria-hidden="true" />
+      </div>
+      <h3>{{ template.name }}</h3>
+      <p>{{ template.description }}</p>
+      <app-status-badge [status]="template.category" variant="neutral" />
+      <button type="button" class="btn-primary gallery__card-btn" (click)="useTemplate(template.id)">
+        <ng-icon name="lucidePlus" aria-hidden="true" />
+        Usar template
+      </button>
+    </article>
+  }
+</div>

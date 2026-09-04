@@ -1,0 +1,185 @@
+<app-page-header title="Novo Agente" subtitle="Crie seu agente passo a passo" />
+
+<ol class="wizard-steps">
+  @for (step of steps; track step.label; let index = $index) {
+    <li
+      class="wizard-steps__item"
+      [class.wizard-steps__item--active]="currentStep() === index"
+      [class.wizard-steps__item--done]="currentStep() > index"
+    >
+      <button type="button" (click)="goToStep(index)">
+        <span class="wizard-steps__circle">
+          @if (currentStep() > index) {
+            <ng-icon name="lucideCheck" aria-hidden="true" />
+          } @else {
+            {{ index + 1 }}
+          }
+        </span>
+        <span class="wizard-steps__label">{{ step.label }}</span>
+      </button>
+    </li>
+  }
+</ol>
+
+<section class="card wizard-panel">
+  @switch (currentStep()) {
+    @case (0) {
+      <h2>Objetivo</h2>
+      <div class="form-field">
+        <label for="agent-name">Nome do agente</label>
+        <input id="agent-name" class="input" placeholder="Ex: Agente de Suporte" [value]="name()" (input)="name.set($any($event.target).value)" />
+      </div>
+      <div class="form-field">
+        <label for="agent-description">Descrição</label>
+        <textarea
+          id="agent-description"
+          class="textarea"
+          placeholder="Descreva o objetivo e as principais capacidades deste agente..."
+          [value]="description()"
+          (input)="description.set($any($event.target).value)"
+        ></textarea>
+      </div>
+      <div class="wizard-panel__grid">
+        <div class="form-field">
+          <label for="agent-objective">Objetivo</label>
+          <select id="agent-objective" class="select" [value]="objective()" (change)="objective.set($any($event.target).value)">
+            @for (option of objectiveOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="agent-category">Categoria</label>
+          <select id="agent-category" class="select" [value]="category()" (change)="category.set($any($event.target).value)">
+            @for (option of categoryOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label id="agent-icon-label">Ícone</label>
+        <div class="icon-picker" role="radiogroup" aria-labelledby="agent-icon-label">
+          @for (option of iconOptions; track option) {
+            <button
+              type="button"
+              role="radio"
+              class="icon-picker__option"
+              [class.icon-picker__option--selected]="icon() === option"
+              [attr.aria-checked]="icon() === option"
+              (click)="icon.set(option)"
+            >
+              <ng-icon [name]="option" aria-hidden="true" />
+            </button>
+          }
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="agent-instructions">Instruções do sistema</label>
+        <textarea
+          id="agent-instructions"
+          class="textarea"
+          placeholder="Defina o comportamento, tom de voz e diretrizes do agente..."
+          [value]="instructions()"
+          (input)="instructions.set($any($event.target).value)"
+        ></textarea>
+      </div>
+    }
+    @case (1) {
+      <h2>Perfil</h2>
+      <div class="wizard-panel__grid">
+        <div class="form-field">
+          <label for="agent-tone">Tom de voz</label>
+          <select id="agent-tone" class="select" [value]="tone()" (change)="tone.set($any($event.target).value)">
+            @for (option of toneOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="agent-audience">Público</label>
+          <select id="agent-audience" class="select" [value]="audience()" (change)="audience.set($any($event.target).value)">
+            @for (option of audienceOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    }
+    @case (2) {
+      <h2>Conhecimento</h2>
+      <app-empty-state
+        icon="lucideBookOpen"
+        title="Nenhum documento adicionado"
+        description="Você poderá anexar bases de conhecimento a este agente depois de criá-lo."
+      />
+    }
+    @case (3) {
+      <h2>Ferramentas</h2>
+      <ul class="toggle-list">
+        @for (tool of tools(); track tool.name) {
+          <li>
+            <span>{{ tool.name }}</span>
+            <label class="switch">
+              <input type="checkbox" [checked]="tool.enabled" (change)="toggleTool(tool)" [attr.aria-label]="tool.name" />
+              <span class="switch__track"></span>
+              <span class="switch__thumb"></span>
+            </label>
+          </li>
+        }
+      </ul>
+    }
+    @case (4) {
+      <h2>Permissões</h2>
+      <ul class="toggle-list">
+        @for (permission of permissions(); track permission.label) {
+          <li>
+            <span>{{ permission.label }}</span>
+            <label class="switch">
+              <input
+                type="checkbox"
+                [checked]="permission.enabled"
+                (change)="togglePermission(permission)"
+                [attr.aria-label]="permission.label"
+              />
+              <span class="switch__track"></span>
+              <span class="switch__thumb"></span>
+            </label>
+          </li>
+        }
+      </ul>
+    }
+    @case (5) {
+      <h2>Teste</h2>
+      <app-empty-state
+        icon="lucideMessageSquare"
+        title="Playground disponível após a publicação"
+        description="Teste conversas com o agente assim que ele for publicado."
+      />
+    }
+    @case (6) {
+      <h2>Publicar</h2>
+      <div class="wizard-summary">
+        <p><strong>Nome:</strong> {{ name() || '—' }}</p>
+        <p><strong>Categoria:</strong> {{ category() }}</p>
+        <p><strong>Objetivo:</strong> {{ objective() }}</p>
+        <p><strong>Ferramentas ativas:</strong> {{ enabledToolsCount() }}</p>
+        <p><strong>Permissões ativas:</strong> {{ enabledPermissionsCount() }}</p>
+      </div>
+    }
+  }
+</section>
+
+<div class="wizard-actions">
+  @if (currentStep() === 0) {
+    <button type="button" class="btn-secondary" (click)="cancel()">Cancelar</button>
+  } @else {
+    <button type="button" class="btn-secondary" (click)="goBack()">Voltar</button>
+  }
+
+  @if (currentStep() === steps.length - 1) {
+    <button type="button" class="btn-primary" (click)="publish()">Publicar</button>
+  } @else {
+    <button type="button" class="btn-primary" (click)="goNext()">Próximo</button>
+  }
+</div>

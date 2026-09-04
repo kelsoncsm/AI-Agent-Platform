@@ -1,0 +1,82 @@
+<app-page-header title="Dashboard" subtitle="Visão geral da sua plataforma" />
+
+<div class="dashboard__stats">
+  @for (stat of stats; track stat.label) {
+    <app-stat-card
+      [label]="stat.label"
+      [value]="stat.value"
+      [icon]="stat.icon"
+      [trendLabel]="stat.trendLabel"
+      [trend]="stat.trend"
+    />
+  }
+</div>
+
+<div class="dashboard__charts">
+  <section class="card dashboard__panel">
+    <div class="dashboard__panel-header">
+      <h2>Execuções nos últimos 30 dias</h2>
+      <span class="dashboard__panel-hint">Últimos 30 dias</span>
+    </div>
+    <div class="bar-chart" role="img" aria-label="Gráfico de execuções nos últimos 30 dias">
+      @for (point of chartData; track point.day) {
+        <div class="bar-chart__column">
+          <div class="bar-chart__bar" [style.height.%]="point.heightPercent"></div>
+          <span class="bar-chart__label">{{ point.day }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="card dashboard__panel dashboard__panel--donut">
+    <div class="dashboard__panel-header">
+      <h2>Tipos de Agentes</h2>
+    </div>
+    <div class="donut-chart">
+      <div class="donut-chart__circle" [style.background]="'conic-gradient(' + donutBackground + ')'">
+        <div class="donut-chart__hole">
+          <strong>{{ agentTypesTotal }}</strong>
+          <span>agentes</span>
+        </div>
+      </div>
+      <ul class="donut-chart__legend">
+        @for (item of agentTypes; track item.label) {
+          <li>
+            <span class="donut-chart__dot" [style.background]="item.color"></span>
+            {{ item.label }}
+            <strong>{{ item.value }}</strong>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+</div>
+
+<section class="card dashboard__executions">
+  <div class="dashboard__panel-header">
+    <h2>Últimas execuções</h2>
+    <a routerLink="/executions" class="dashboard__link">Ver todas</a>
+  </div>
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Agente</th>
+          <th scope="col">Status</th>
+          <th scope="col">Duração</th>
+          <th scope="col">Iniciado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (execution of executions; track execution.id) {
+          <tr>
+            <td>{{ execution.agentName }}</td>
+            <td><app-status-badge [status]="execution.status" /></td>
+            <td>{{ execution.durationLabel }}</td>
+            <td>{{ execution.startedAt }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

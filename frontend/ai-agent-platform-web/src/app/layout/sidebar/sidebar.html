@@ -1,0 +1,28 @@
+<aside class="sidebar" [class.sidebar--open]="open()">
+  <div class="sidebar__brand">
+    <span class="sidebar__logo" aria-hidden="true">AI</span>
+    <span class="sidebar__brand-name">AI Agent Platform</span>
+  </div>
+
+  <nav class="sidebar__nav" aria-label="Navegação principal">
+    @for (item of navItems; track item.route) {
+      <a
+        class="sidebar__link"
+        [routerLink]="item.route"
+        routerLinkActive="sidebar__link--active"
+        (click)="linkClicked.emit()"
+      >
+        <ng-icon [name]="item.icon" aria-hidden="true" />
+        <span class="sidebar__link-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar__user">
+    <span class="sidebar__avatar" aria-hidden="true">{{ user.initials }}</span>
+    <div class="sidebar__user-info">
+      <p class="sidebar__user-name">{{ user.name }}</p>
+      <p class="sidebar__user-email">{{ user.email }}</p>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,22 @@
+<app-page-header title="Ferramentas" subtitle="Ferramentas disponíveis para seus agentes">
+  <button actions type="button" class="btn-primary">
+    <ng-icon name="lucidePlus" aria-hidden="true" />
+    Adicionar ferramenta
+  </button>
+</app-page-header>
+
+<div class="tools__grid">
+  @for (tool of tools; track tool.id) {
+    <article class="card tools__card">
+      <div class="tools__card-header">
+        <div class="tools__card-icon">
+          <ng-icon [name]="tool.icon" aria-hidden="true" />
+        </div>
+        <app-status-badge [status]="tool.status" />
+      </div>
+      <h3>{{ tool.name }}</h3>
+      <p>{{ tool.description }}</p>
+      <span class="tools__permission">Permissão: {{ tool.permission }}</span>
+    </article>
+  }
+</div>
