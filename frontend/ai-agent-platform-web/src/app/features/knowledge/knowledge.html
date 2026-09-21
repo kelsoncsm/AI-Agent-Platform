@@ -1,0 +1,36 @@
+<app-page-header title="Knowledge Base" subtitle="Bases de conhecimento usadas pelos seus agentes">
+  <button actions type="button" class="btn-primary">
+    <ng-icon name="lucidePlus" aria-hidden="true" />
+    Nova base
+  </button>
+</app-page-header>
+
+<div class="knowledge__grid">
+  @for (base of bases; track base.id) {
+    <article class="card knowledge__card">
+      <div class="knowledge__card-header">
+        <div class="knowledge__card-icon">
+          <ng-icon name="lucideDatabase" aria-hidden="true" />
+        </div>
+        <app-status-badge [status]="base.status" />
+      </div>
+      <h3>{{ base.name }}</h3>
+      <p>{{ base.documentCount }} documentos · {{ base.sizeLabel }}</p>
+      <span class="knowledge__updated">Atualizado em {{ base.updatedAt }}</span>
+    </article>
+  }
+</div>
+
+<section class="card knowledge__upload">
+  <div class="knowledge__upload-icon">
+    <ng-icon name="lucideUploadCloud" aria-hidden="true" />
+  </div>
+  <h3>Arraste arquivos aqui</h3>
+  <p>ou</p>
+  <button type="button" class="btn-secondary">Selecionar arquivos</button>
+  <div class="knowledge__extensions">
+    @for (extension of extensions; track extension) {
+      <span class="chip">{{ extension }}</span>
+    }
+  </div>
+</section>

@@ -1,0 +1,55 @@
+<app-page-header title="Assinatura e Billing" subtitle="Gerencie seu plano e uso">
+  <button actions type="button" class="btn-primary">
+    <ng-icon name="lucideCreditCard" aria-hidden="true" />
+    Gerenciar assinatura
+  </button>
+</app-page-header>
+
+<div class="billing__grid">
+  <section class="card billing__plan">
+    <span class="billing__plan-label">Plano atual</span>
+    <h2>{{ plan.name }}</h2>
+    <p>{{ plan.priceLabel }}</p>
+  </section>
+
+  <section class="card billing__usage">
+    <h2>Uso atual</h2>
+    @for (item of usage; track item.label) {
+      <div class="progress">
+        <div class="progress__labels">
+          <span>{{ item.label }}</span>
+          <span>{{ item.usedLabel }} / {{ item.limitLabel }}</span>
+        </div>
+        <div class="progress__track">
+          <div class="progress__fill" [style.width.%]="item.percent"></div>
+        </div>
+      </div>
+    }
+  </section>
+</div>
+
+<section class="card">
+  <div class="billing__invoices-header">
+    <h2>Últimas faturas</h2>
+  </div>
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (invoice of invoices; track invoice.id) {
+          <tr>
+            <td>{{ invoice.date }}</td>
+            <td>{{ invoice.amountLabel }}</td>
+            <td><app-status-badge [status]="invoice.status" /></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

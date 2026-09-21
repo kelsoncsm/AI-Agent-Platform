@@ -1,0 +1,93 @@
+<app-page-header title="Configurações" subtitle="Preferências da sua organização" />
+
+<div class="tabs" role="tablist">
+  @for (tab of tabs; track tab) {
+    <button
+      type="button"
+      role="tab"
+      class="tab"
+      [class.active]="activeTab() === tab"
+      [attr.aria-selected]="activeTab() === tab"
+      (click)="activeTab.set(tab)"
+    >
+      {{ tab }}
+    </button>
+  }
+</div>
+
+<section class="card settings__panel">
+  @switch (activeTab()) {
+    @case ('Geral') {
+      <div class="settings__grid">
+        <div class="form-field">
+          <label for="org-name">Nome da organização</label>
+          <input id="org-name" class="input" [value]="orgName()" (input)="orgName.set($any($event.target).value)" />
+        </div>
+
+        <div class="form-field">
+          <label id="org-logo-label">Logo</label>
+          <div class="settings__logo-upload" role="button" tabindex="0" aria-labelledby="org-logo-label">
+            <ng-icon name="lucideUploadCloud" aria-hidden="true" />
+            <span>Clique para enviar ou arraste um arquivo</span>
+            <span class="hint">PNG, JPG ou SVG (máx. 2MB)</span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="org-timezone">Timezone</label>
+          <select id="org-timezone" class="select" [value]="timezone()" (change)="timezone.set($any($event.target).value)">
+            @for (tz of timezones; track tz) {
+              <option [value]="tz">{{ tz }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="org-language">Idioma</label>
+          <select id="org-language" class="select" [value]="language()" (change)="language.set($any($event.target).value)">
+            @for (lang of languages; track lang) {
+              <option [value]="lang">{{ lang }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary">Salvar alterações</button>
+    }
+    @case ('Modelos de IA') {
+      <app-empty-state
+        icon="lucideCpu"
+        title="Modelos de IA"
+        description="Configuração de modelos e chaves de provedor chega em uma próxima etapa."
+      />
+    }
+    @case ('Ferramentas') {
+      <app-empty-state
+        icon="lucideWrench"
+        title="Ferramentas da organização"
+        description="Gestão de ferramentas globais chega em uma próxima etapa."
+      />
+    }
+    @case ('Knowledge Base') {
+      <app-empty-state
+        icon="lucideBookOpen"
+        title="Knowledge Base da organização"
+        description="Configurações avançadas de bases de conhecimento chegam em uma próxima etapa."
+      />
+    }
+    @case ('Equipe') {
+      <app-empty-state
+        icon="lucideUsers"
+        title="Equipe"
+        description="Convide e gerencie usuários da sua organização em uma próxima etapa."
+      />
+    }
+    @case ('Segurança') {
+      <app-empty-state
+        icon="lucideShield"
+        title="Segurança"
+        description="Autenticação em dois fatores e políticas de acesso chegam em uma próxima etapa."
+      />
+    }
+  }
+</section>

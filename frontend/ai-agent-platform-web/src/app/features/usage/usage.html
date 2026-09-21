@@ -1,0 +1,22 @@
+<app-page-header title="Uso" subtitle="Consumo da sua plataforma no período atual" />
+
+<div class="usage__stats">
+  @for (stat of stats; track stat.label) {
+    <app-stat-card [label]="stat.label" [value]="stat.value" [icon]="stat.icon" />
+  }
+</div>
+
+<section class="card usage__panel">
+  <h2>Consumo por recurso</h2>
+  @for (bar of bars; track bar.label) {
+    <div class="progress">
+      <div class="progress__labels">
+        <span>{{ bar.label }}</span>
+        <span>{{ bar.usedLabel }} / {{ bar.limitLabel }}</span>
+      </div>
+      <div class="progress__track">
+        <div class="progress__fill" [style.width.%]="bar.percent"></div>
+      </div>
+    </div>
+  }
+</section>

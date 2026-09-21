@@ -1,0 +1,12 @@
+<article class="stat-card card">
+  <div class="stat-card__icon">
+    <ng-icon [name]="icon()" />
+  </div>
+  <div class="stat-card__body">
+    <p class="stat-card__label">{{ label() }}</p>
+    <p class="stat-card__value">{{ value() }}</p>
+    @if (trendLabel()) {
+      <p class="stat-card__trend" [class]="'stat-card__trend--' + trend()">{{ trendLabel() }}</p>
+    }
+  </div>
+</article>

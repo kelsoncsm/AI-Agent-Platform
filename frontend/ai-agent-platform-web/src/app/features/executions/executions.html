@@ -1,0 +1,54 @@
+<app-page-header title="Execuções" subtitle="Histórico de execuções dos seus agentes" />
+
+<div class="executions__toolbar">
+  <app-search-input placeholder="Buscar por agente..." [value]="search()" (valueChange)="setSearch($event)" />
+  <button type="button" class="btn-secondary">
+    <ng-icon name="lucideFilter" aria-hidden="true" />
+    Filtros
+  </button>
+</div>
+
+<div class="card">
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Agente</th>
+          <th scope="col">Status</th>
+          <th scope="col">Duração</th>
+          <th scope="col">Tokens</th>
+          <th scope="col">Custo</th>
+          <th scope="col">Iniciado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (execution of pagedExecutions(); track execution.id) {
+          <tr>
+            <td>{{ execution.agentName }}</td>
+            <td><app-status-badge [status]="execution.status" /></td>
+            <td>{{ execution.durationLabel }}</td>
+            <td>{{ execution.tokens }}</td>
+            <td>{{ execution.cost }}</td>
+            <td>{{ execution.startedAt }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button type="button" class="icon-btn" [disabled]="page() === 1" (click)="goToPage(page() - 1)" aria-label="Página anterior">
+      <ng-icon name="lucideChevronLeft" aria-hidden="true" />
+    </button>
+    <span>Página {{ page() }} de {{ totalPages() }}</span>
+    <button
+      type="button"
+      class="icon-btn"
+      [disabled]="page() === totalPages()"
+      (click)="goToPage(page() + 1)"
+      aria-label="Próxima página"
+    >
+      <ng-icon name="lucideChevronRight" aria-hidden="true" />
+    </button>
+  </div>
+</div>

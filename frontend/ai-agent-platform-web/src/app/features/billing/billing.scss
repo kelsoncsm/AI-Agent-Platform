@@ -1,0 +1,44 @@
+.billing__grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  align-items: start;
+}
+
+.billing__plan,
+.billing__usage {
+  padding: var(--spacing-lg);
+}
+
+.billing__plan-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.billing__plan h2 {
+  margin-top: var(--spacing-xs);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.billing__plan p {
+  margin-top: var(--spacing-xs);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.billing__usage h2,
+.billing__invoices-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+@media (max-width: 900px) {
+  .billing__grid {
+    grid-template-columns: 1fr;
+  }
+}

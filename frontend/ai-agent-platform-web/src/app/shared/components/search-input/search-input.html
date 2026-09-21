@@ -1,0 +1,11 @@
+<label class="search-input">
+  <ng-icon name="lucideSearch" aria-hidden="true" />
+  <span class="visually-hidden">{{ placeholder() }}</span>
+  <input
+    type="search"
+    class="search-input__field"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    (input)="onInput($event)"
+  />
+</label>

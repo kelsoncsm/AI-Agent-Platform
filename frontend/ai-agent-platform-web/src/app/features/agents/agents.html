@@ -1,0 +1,62 @@
+<app-page-header title="Agentes" subtitle="Gerencie seus agentes de IA">
+  <button actions type="button" class="btn-primary" routerLink="/agents/new">
+    <ng-icon name="lucidePlus" aria-hidden="true" />
+    Novo agente
+  </button>
+</app-page-header>
+
+<div class="agents__toolbar">
+  <div class="tabs" role="tablist">
+    @for (tab of tabs; track tab) {
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.active]="activeTab() === tab"
+        [attr.aria-selected]="activeTab() === tab"
+        (click)="activeTab.set(tab)"
+      >
+        {{ tab }} ({{ countFor(tab) }})
+      </button>
+    }
+  </div>
+
+  <div class="agents__filters">
+    <app-search-input placeholder="Buscar agentes..." [(value)]="search" />
+    <button type="button" class="btn-secondary">
+      <ng-icon name="lucideFilter" aria-hidden="true" />
+      Filtros
+    </button>
+  </div>
+</div>
+
+@if (filteredAgents().length) {
+  <div class="agents__list">
+    @for (agent of filteredAgents(); track agent.id) {
+      <article class="card agents__item">
+        <div class="agents__item-icon">
+          <ng-icon [name]="agent.icon" aria-hidden="true" />
+        </div>
+        <div class="agents__item-body">
+          <div class="agents__item-title">
+            <h3>{{ agent.name }}</h3>
+            <app-status-badge [status]="agent.status" />
+          </div>
+          <p>{{ agent.description }}</p>
+          <span class="agents__item-date">Criado em {{ agent.createdAt }}</span>
+        </div>
+        <button type="button" class="icon-btn" aria-label="Mais opções para {{ agent.name }}">
+          <ng-icon name="lucideMoreVertical" aria-hidden="true" />
+        </button>
+      </article>
+    }
+  </div>
+} @else {
+  <div class="card">
+    <app-empty-state
+      icon="lucideBot"
+      title="Nenhum agente encontrado"
+      description="Ajuste a busca ou os filtros, ou crie um novo agente."
+    />
+  </div>
+}

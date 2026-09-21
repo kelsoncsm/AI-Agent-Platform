@@ -1,0 +1,43 @@
+<header class="topbar">
+  <button type="button" class="topbar__menu-btn" aria-label="Abrir menu de navegação" (click)="menuToggle.emit()">
+    <ng-icon name="lucideMenu" aria-hidden="true" />
+  </button>
+
+  <app-search-input placeholder="Buscar..." class="topbar__search" />
+
+  <div class="topbar__actions">
+    <button type="button" class="icon-btn" aria-label="Notificações">
+      <ng-icon name="lucideBell" aria-hidden="true" />
+    </button>
+
+    <div class="topbar__user-menu">
+      <button
+        type="button"
+        class="topbar__user-btn"
+        aria-haspopup="true"
+        [attr.aria-expanded]="userMenuOpen()"
+        (click)="toggleUserMenu()"
+      >
+        <span class="topbar__avatar" aria-hidden="true">JS</span>
+        <ng-icon name="lucideChevronDown" aria-hidden="true" />
+      </button>
+
+      @if (userMenuOpen()) {
+        <div class="topbar__dropdown" role="menu">
+          <a role="menuitem" routerLink="/settings" (click)="closeUserMenu()">
+            <ng-icon name="lucideUser" aria-hidden="true" />
+            Meu perfil
+          </a>
+          <a role="menuitem" routerLink="/settings" (click)="closeUserMenu()">
+            <ng-icon name="lucideSettings" aria-hidden="true" />
+            Configurações
+          </a>
+          <a role="menuitem" routerLink="/login" (click)="closeUserMenu()">
+            <ng-icon name="lucideLogOut" aria-hidden="true" />
+            Sair
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+</header>
